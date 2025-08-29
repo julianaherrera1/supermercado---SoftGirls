@@ -60,7 +60,76 @@ class ClienteSeeder extends Seeder
                 'telefonoCliente' => '314526693',
                 'generoCliente' => 'F',
                 'fotoCliente' => 'vale.jpg'
-            ]
+            ],
+                [
+                'nombreCliente' => 'Andrés Mejía',
+                'cedulaCliente' => '1122',
+                'direccionCliente' => 'Laureles',
+                'telefonoCliente' => '3014567890',
+                'generoCliente' => 'M',
+                'fotoCliente' => 'andres.jpg'
+            ],
+                [
+                'nombreCliente' => 'Camila Restrepo',
+                'cedulaCliente' => '2233',
+                'direccionCliente' => 'Robledo',
+                'telefonoCliente' => '3112345678',
+                'generoCliente' => 'F',
+                'fotoCliente' => 'camila.jpg'
+            ],
+
+            [
+                'nombreCliente' => 'Juan Pablo López',
+                'cedulaCliente' => '3344',
+                'direccionCliente' => 'Envigado',
+                'telefonoCliente' => '3029876543',
+                'generoCliente' => 'M',
+                'fotoCliente' => 'juanpablo.jpg'
+            ], 
+                [
+                'nombreCliente' => 'Laura Sánchez',
+                'cedulaCliente' => '4455',
+                'direccionCliente' => 'Itagüí',
+                'telefonoCliente' => '3207654321',
+                'generoCliente' => 'F',
+                'fotoCliente' => 'laura.jpg'
+            ],
+
+               [
+                'nombreCliente' => 'Mateo Álvarez',
+                'cedulaCliente' => '5566',
+                'direccionCliente' => 'Castilla',
+                'telefonoCliente' => '3156789012',
+                'generoCliente' => 'M',
+                'fotoCliente' => 'mateo.jpg'
+            ],
+
+                [
+                'nombreCliente' => 'Sofía Ramírez',
+                'cedulaCliente' => '6677',
+                'direccionCliente' => 'Aranjuez',
+                'telefonoCliente' => '3176543210',
+                'generoCliente' => 'F',
+                'fotoCliente' => 'sofia.jpg'
+            ],
+
+                [
+                'nombreCliente' => 'Felipe González',
+                'cedulaCliente' => '7788',
+                'direccionCliente' => 'San Javier',
+                'telefonoCliente' => '3001112233',
+                'generoCliente' => 'M',
+                'fotoCliente' => 'felipe.jpg'
+            ],
+
+                [
+                'nombreCliente' => 'Carolina Herrera',
+                'cedulaCliente' => '8899',
+                'direccionCliente' => 'Buenos Aires',
+                'telefonoCliente' => '3129988776',
+                'generoCliente' => 'F',
+                'fotoCliente' => 'carolina.jpg'
+                ]
         ];
 
         DB::table('cliente')->insert($clientes);
