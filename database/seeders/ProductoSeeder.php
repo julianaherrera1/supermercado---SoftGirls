@@ -30,7 +30,48 @@ class ProductoSeeder extends Seeder
                     'precioProducto' => 15000,
                     'fotoProducto' => 'papel.jpg',
                     'categoria' => 3
+                ],
+
+                [
+                    'nombreProducto' => 'Limpia vidrios Xd',
+                    'cantidadProducto' => 25,
+                    'precioProducto' => 8700,
+                    'fotoProducto' => 'vidrio.jpg',
+                    'categoria' => 3
+                ],
+
+                [
+                    'nombreProducto' => 'Azucar Manuelita Kilo',
+                    'cantidadProducto' => 28,
+                    'precioProducto' => 4500,
+                    'fotoProducto' => 'azucar.jpg',
+                    'categoria' => 1
+                ],
+
+                [
+                    'nombreProducto' => 'Leche Alqueria',
+                    'cantidadProducto' => 45,
+                    'precioProducto' => 8400,
+                    'fotoProducto' => 'leche.jpg',
+                    'categoria' => 2
+                ],
+
+                [
+                    'nombreProducto' => 'Jabon Protex',
+                    'cantidadProducto' => 70,
+                    'precioProducto' => 3800,
+                    'fotoProducto' => 'jabon.jpg',
+                    'categoria' => 2
+                ],
+
+                [
+                    'nombreProducto' => 'Papel Higenico Scott',
+                    'cantidadProducto' => 35,
+                    'precioProducto' => 15000,
+                    'fotoProducto' => 'papelS.jpg',
+                    'categoria' => 3
                 ]
+  
             ];
         DB::table('producto')->insert($productos);
     }
