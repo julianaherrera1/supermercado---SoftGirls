@@ -33,7 +33,7 @@
                 <td>{{$c->nombreProducto}}</td>
                 <td>{{$c->cantidadProducto}}</td>
                 <td>{{$c->precioProducto}}</td>
-                <td>{{$c->categoria}}</td>
+                <td>{{$c->nombreCategoria}}</td>
                 <td>
                     <a class="btn btn-primary"> Editar </a>
                     <a class="btn btn-danger"> Eliminar </a>
