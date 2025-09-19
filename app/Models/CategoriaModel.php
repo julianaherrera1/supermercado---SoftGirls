@@ -6,7 +6,7 @@ use Illuminate\Database\Eloquent\Model;
 
 class CategoriaModel extends Model
 {
-    protected $table = categoria; //Nombre de la tabla
+    protected $table = 'categoria'; //Nombre de la tabla
     protected $primaryKey = 'id'; //Llave primaria de la tabla
     public $timestamps = true; // Activar los temporizadores de registros
 
