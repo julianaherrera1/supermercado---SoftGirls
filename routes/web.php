@@ -2,6 +2,12 @@
 
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\CategoriaController;
+use App\Http\Controllers\ProductoController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ProductController;
+
 
 Route::get('/', function () {
     return view('welcome');
@@ -16,5 +22,23 @@ Route::middleware('auth')->group(function () {
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
+// Rutas Clientes
+/*Route::get('/clientes', [ClientesController::class, 'index'])->middleware(['auth', 'verified'])->name('clientes');
+
+// Rutas Categorias
+Route::get('/categorias', [CategoriaController::class, 'index'])->middleware(['auth', 'verified'])->name('categorias');
+Route::get('/categoriaUno', [CategoriaController::class, 'listarUno'])->middleware(['auth', 'verified'])->name('categorias');
+Route::get('/categoriaDos', [CategoriaController::class, 'listarCondicion'])->middleware(['auth', 'verified'])->name('categorias');
+
+// Rutas de Productos
+Route::get('/productos', [ProductoController::class, 'index'])->middleware(['auth', 'verified'])->name('productos');
+
+*/
+
+Route::get('/categorias', [CategoryController::class, 'index'])->name('categorias');
+Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->name('form_reg_categoria');
+Route::get('/productos', [ProductController::class, 'index'])->name('productos');
+
+
 
 require __DIR__.'/auth.php';
