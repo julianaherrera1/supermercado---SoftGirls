@@ -35,7 +35,7 @@ Route::get('/categoriaDos', [CategoriaController::class, 'listarCondicion'])->mi
 Route::get('/categorias', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categorias');
 Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->middleware(['auth', 'verified'])->name('form_reg_categoria');
 Route::post('/categorias/registro', [CategoryController::class, 'registrar'])->middleware(['auth', 'verified'])->name('registro_categoria');
-Route::get('/categorias/edicion', [CategoryController::class, 'form_edicion'])->middleware(['auth', 'verified'])->name('form_edc_categoria');
+Route::get('/categorias/edicion/{id}', [CategoryController::class, 'form_edicion'])->middleware(['auth', 'verified'])->name('form_edc_categoria');
 
 
 // Rutas de Productos

@@ -28,12 +28,12 @@ class CategoryController extends Controller
         return redirect()->route('categorias');
     }
 
-    public function form_edicion(){
+    public function form_edicion($id){
         /*
         Esta función sera invocada cuando el usuario le de clic en Editar
         */
-        return view('Categorias.form_edicion');
-
+        $category = CategoriaModel::findOrFail($id); // Retorna el registro cuyo id corresponda
+        return view('Categorias.form_edicion', compact('category'));
     }
 
 
