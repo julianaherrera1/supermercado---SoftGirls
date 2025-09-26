@@ -21,6 +21,18 @@ class CategoryController extends Controller
     }
 
     public function registrar(Request $r){
+        $category = new CategoriaModel();
+        $category->nombreCategoria = $r->input('nombre_categoria');
+        $category->descripcion = $r->input('descripcion_categoria');
+        $category->save();
+        return redirect()->route('categorias');
+    }
+
+    public function form_edicion(){
+        /*
+        Esta función sera invocada cuando el usuario le de clic en Editar
+        */
+        return view('Categorias.form_edicion');
 
     }
 

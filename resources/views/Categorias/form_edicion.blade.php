@@ -2,8 +2,8 @@
 @yield('contenido')
 
 <div class="container">
-    <h1>Registro de Categorias </h1>
-    <form action="{{url('/categorias/registro')}}" method="POST">
+    <h1>Actualización de Categorias </h1>
+    <form action="{{url('')}}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="nombre_categoria" class="form-label">Nombre Categoria</label>
