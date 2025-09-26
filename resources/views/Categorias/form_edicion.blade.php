@@ -4,9 +4,9 @@
 
 <div class="container">
 
-    <h1>Registro Categorias</h1>
+    <h1>Actualización de Categorias</h1>
 
-    <form action="{{ url('/categorias/registro')}}" method="POST">
+    <form action="{{ url('')}}" method="POST">
         @csrf <!-- medida de seguridad para proteger los datos que viajen por el formulario -->
         <div class="form-group">
             <label for="nombre_categoria">Nombre Categoria</label>

@@ -9,6 +9,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
 
 
+
 Route::get('/', function () {
     return view('welcome');
 });
@@ -36,9 +37,10 @@ Route::get('/productos', [ProductoController::class, 'index'])->middleware(['aut
 */
 
 Route::get('/categorias', [CategoryController::class, 'index'])->name('categorias');
-Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->name('form_reg_categoria');
 Route::get('/productos', [ProductController::class, 'index'])->name('productos');
-
+Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->name('form_reg_categoria');
+Route::post('/categorias/registro', [CategoryController::class, 'registrar'])->name('registro_categoria');
+Route::get('/categorias/edicion/{id}', [CategoryController::class, 'form_edicion'])->name('form_edc_categoria');
 
 
 require __DIR__.'/auth.php';
