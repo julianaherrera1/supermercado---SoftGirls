@@ -38,7 +38,7 @@
                     <td>{{$c->descripcion}}</td>
                     <td>
                         <a class="btn btn-primary" href="{{route('form_edc_categoria',$c->id)}}"> Editar </a>
-                        <a class="btn btn-danger"> Eliminar </a>
+                        <a class="btn btn-danger" href="{{route('elimina_categoria',$c->id)}}"> Eliminar </a>
                     </td>
 
                 </tr>
