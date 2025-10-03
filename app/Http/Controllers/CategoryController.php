@@ -36,6 +36,14 @@ class CategoryController extends Controller
         return view('Categorias.form_edicion', compact('category'));
     }
 
+    public function actualizar(Request $r, $id){
+        $category = CategoriaModel::findOrFail($id);
+        $category->nombreCategoria = $r->input('nombre_categoria');
+        $category->descripcion = $r->input('descripcion_categoria');
+        $category->save();
+        return redirect()->route('categorias');
+    }
+
 
 
 

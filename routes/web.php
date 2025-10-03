@@ -36,7 +36,7 @@ Route::get('/categorias', [CategoryController::class, 'index'])->middleware(['au
 Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->middleware(['auth', 'verified'])->name('form_reg_categoria');
 Route::post('/categorias/registro', [CategoryController::class, 'registrar'])->middleware(['auth', 'verified'])->name('registro_categoria');
 Route::get('/categorias/edicion/{id}', [CategoryController::class, 'form_edicion'])->middleware(['auth', 'verified'])->name('form_edc_categoria');
-
+Route::post('/categorias/edicion/{id}', [CategoryController::class, 'actualizar'])->middleware(['auth', 'verified'])->name('actualiza_categoria');
 
 // Rutas de Productos
 /*

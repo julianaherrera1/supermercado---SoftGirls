@@ -3,7 +3,7 @@
 
 <div class="container">
     <h1>Actualización de Categorias </h1>
-    <form action="{{url('')}}" method="POST">
+    <form action="{{route('actualiza_categoria',$category->id)}}" method="POST">
         @csrf
         <div class="mb-3">
             <label for="nombre_categoria" class="form-label">Nombre Categoria</label>
