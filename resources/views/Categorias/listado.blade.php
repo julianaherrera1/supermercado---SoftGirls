@@ -15,30 +15,37 @@
 
     <h1> Listado de Categorias </h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th scope="col">Id</th>
-                <th scope="col">Nombre</th>
-                <th scope="col">Descripción</th>
-                <th scope="col">Opciones</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach($categorias as $c)
-            <tr>
-                <th scope="row">{{$c->id}}</th>
-                <td>{{$c->nombreCategoria}}</td>
-                <td>{{$c->descripcion}}</td>
-                <td>
-                    <a class="btn btn-primary"> Editar </a>
-                    <a class="btn btn-danger"> Eliminar </a>
-                </td>
+    <div class="container">
 
-            </tr>
-            @endforeach
-        </tbody>
-    </table>
+        <div align="right">
+            <a class="btn btn-success" href="{{route('form_reg_categoria')}}"> Adicionar </a>
+        </div>
+
+        <table class="table">
+            <thead>
+                <tr>
+                    <th scope="col">Id</th>
+                    <th scope="col">Nombre</th>
+                    <th scope="col">Descripción</th>
+                    <th scope="col">Opciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach($categorias as $c)
+                <tr>
+                    <th scope="row">{{$c->id}}</th>
+                    <td>{{$c->nombreCategoria}}</td>
+                    <td>{{$c->descripcion}}</td>
+                    <td>
+                        <a class="btn btn-primary" href="{{route('form_edc_categoria',$c->id)}}"> Editar </a>
+                        <a class="btn btn-danger" href="{{route('elimina_categoria',$c->id)}}"> Eliminar </a>
+                    </td>
+
+                </tr>
+                @endforeach
+            </tbody>
+        </table>
+    </div>
 
 </body>
 </html>
