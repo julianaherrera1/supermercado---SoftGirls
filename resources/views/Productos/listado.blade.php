@@ -12,8 +12,13 @@
 
 </head>
 <body>
+    
 
     <h1> Listado de Productos </h1>
+
+       <div align="center">
+            <a class="btn btn-success" href="{{route('form_reg_producto')}}"> Adicionar </a>
+        </div>
 
     <table class="table">
         <thead>

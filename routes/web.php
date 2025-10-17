@@ -46,6 +46,8 @@ Route::get('/categorias/eliminacion/{id}', [CategoryController::class, 'eliminar
 Route::get('/productos', [ProductoController::class, 'index'])->middleware(['auth', 'verified'])->name('productos');
 */
 Route::get('/productos', [ProductController::class, 'index'])->middleware(['auth', 'verified'])->name('productos');
+Route::get('/productos/registro', [ProductController::class, 'form_registro'])->middleware(['auth', 'verified'])->name('form_reg_producto');
+Route::post('/productos/registro', [ProductController::class, 'registrar'])->middleware(['auth', 'verified'])->name('registro_producto');
 
 
 require __DIR__.'/auth.php';
