@@ -103,7 +103,10 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('productos')->with('success', 'Producto actualizado correctamente.');
+/*        return redirect()->route('productos')->with('success', 'Producto actualizado correctamente.'); 
+ */            
+        return redirect()->back()->with('success', 'Producto actualizado correctamente.');
+
     }
 
     // 🗑️ (Para después) Eliminar producto

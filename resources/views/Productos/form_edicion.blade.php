@@ -88,6 +88,13 @@
         </div>
 
         <div class="card-body px-4 py-4">
+                    @if(session('success'))
+            <div class="alert alert-success alert-dismissible fade show" role="alert">
+                {{ session('success') }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+            </div>
+        @endif
+
             <form action="{{ route('actualiza_producto', $producto->id) }}" method="POST" enctype="multipart/form-data">
             @csrf
 

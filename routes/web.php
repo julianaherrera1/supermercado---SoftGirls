@@ -54,7 +54,11 @@ Route::post('/productos/registro', [ProductController::class, 'registrar'])->mid
 
 // Editar
 Route::get('/productos/edicion/{id}', [ProductController::class, 'form_edicion'])->middleware(['auth', 'verified'])->name('form_edicion');
-Route::post('/productos/edicion/{id}', [ProductController::class, 'actualizar'])->middleware(['auth', 'verified'])->name('actualiza_producto');
+ Route::post('/productos/edicion/{id}', [ProductController::class, 'actualizar'])
+    ->middleware(['auth', 'verified'])
+    ->name('actualiza_producto');
+
+
 
 // Eliminar
 Route::delete('/productos/eliminacion/{id}', [ProductController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('elimina_producto');
