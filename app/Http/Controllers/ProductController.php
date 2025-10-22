@@ -2,66 +2,105 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\ProductoModel;
 use App\Models\CategoriaModel;
+use Illuminate\Support\Facades\Storage;
 
 class ProductController extends Controller
 {
-    public function index(){
-        $productos = ProductoModel::all();
+    // 📋 Mostrar listado de productos
+    public function index()
+    {
+        // Traer productos con su categoría asociada
+        $productos = ProductoModel::with('belongsCategory')->get();
         return view('Productos.listado', compact('productos'));
     }
 
-     public function form_registro(){
-        /*
-        Esta función sera invocada cuando el usuario le de clic en Adicionar
-        */
+    // 🧾 Formulario de registro
+    public function form_registro()
+    {
         $categorias = CategoriaModel::all();
         return view('Productos.form_registro', compact('categorias'));
     }
 
-  
-        public function registrar(Request $r){
-                $r->validate([
-                    'nombre_producto' => 'required|string',
-                    'cantidad_producto' => 'required|integer|min:1',
-                    'precio_producto' => 'required|numeric|min:0',
-                    'foto_producto' => 'string', // o 'required|image' si es un archivo
-                    'categoria' => 'required|integer',
-                ]);
-                $product= new ProductoModel();
-                $product->nombreProducto= $r->input('nombre_producto');
-                $product->cantidadProducto= $r->input('cantidad_producto');
-                $product->precioProducto= $r->input('precio_producto');
-                $product->fotoProducto= $r->input('foto_producto');
-                $product->categoria= $r->input('categoria');
-                $product->save();
-                return redirect()->route('productos');
+    // 💾 Registrar producto
+    public function registrar(Request $request)
+    {
+        $request->validate([
+            'nombre_producto' => 'required|string|max:100',
+            'cantidad_producto' => 'required|integer|min:1',
+            'precio_producto' => 'required|numeric|min:0',
+            'foto_producto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'categoria' => 'required|exists:categoria,id',
+        ]);
+
+        $product = new ProductoModel();
+        $product->nombreProducto = $request->nombre_producto;
+        $product->cantidadProducto = $request->cantidad_producto;
+        $product->precioProducto = $request->precio_producto;
+        $product->categoria = $request->categoria;
+
+        // Guardar imagen si existe
+        if ($request->hasFile('foto_producto')) {
+            $ruta = $request->file('foto_producto')->store('productos', 'public');
+            $product->fotoProducto = $ruta;
+        }
+
+        $product->save();
+
+        return redirect()->route('productos')->with('success', 'Producto registrado correctamente.');
+    }
+
+    // ✏️ (Para después) Formulario de edición
+    public function form_edicion($id)
+    {
+        $producto = ProductoModel::findOrFail($id);
+        $categorias = CategoriaModel::all();
+        return view('Productos.form_edicion', compact('producto', 'categorias'));
+    }
+
+    // 🔁 (Para después) Actualizar producto
+    public function actualizar(Request $request, $id)
+    {
+        $request->validate([
+            'nombre_producto' => 'required|string|max:100',
+            'cantidad_producto' => 'required|integer|min:1',
+            'precio_producto' => 'required|numeric|min:0',
+            'foto_producto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'categoria' => 'required|exists:categoria,id',
+        ]);
+
+        $product = ProductoModel::findOrFail($id);
+        $product->nombreProducto = $request->nombre_producto;
+        $product->cantidadProducto = $request->cantidad_producto;
+        $product->precioProducto = $request->precio_producto;
+        $product->categoria = $request->categoria;
+
+        if ($request->hasFile('foto_producto')) {
+            if ($product->fotoProducto && Storage::disk('public')->exists($product->fotoProducto)) {
+                Storage::disk('public')->delete($product->fotoProducto);
             }
+            $ruta = $request->file('foto_producto')->store('productos', 'public');
+            $product->fotoProducto = $ruta;
+        }
 
-    public function form_edicion($id){
-        /*
-        Esta función sera invocada cuando el usuario le de clic en Editar
-        */
-        $category = CategoriaModel::findOrFail($id); // Retorna el registro cuyo id corresponda
-        return view('Categorias.form_edicion', compact('category'));
+        $product->save();
+
+        return redirect()->route('productos')->with('success', 'Producto actualizado correctamente.');
     }
 
-    public function actualizar(Request $r, $id){
-        $category = CategoriaModel::findOrFail($id);
-        $category->nombreCategoria = $r->input('nombre_categoria');
-        $category->descripcion = $r->input('descripcion_categoria');
-        $category->save();
-        return redirect()->route('categorias');
-    }
+    // 🗑️ (Para después) Eliminar producto
+    public function eliminar($id)
+    {
+        $product = ProductoModel::findOrFail($id);
 
-    public function eliminar($id){
-        $category = CategoriaModel::findOrFail($id);
-        $category->delete();
-        return redirect()->route('categorias');
-    }
+        if ($product->fotoProducto && Storage::disk('public')->exists($product->fotoProducto)) {
+            Storage::disk('public')->delete($product->fotoProducto);
+        }
 
-    
+        $product->delete();
+
+        return redirect()->route('productos')->with('success', 'Producto eliminado correctamente.');
+    }
 }
