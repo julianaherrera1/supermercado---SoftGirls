@@ -4,8 +4,11 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\ProductoModel;
+use Illuminate\Support\Facades\DB;
 use App\Models\CategoriaModel;
 use Illuminate\Support\Facades\Storage;
+
+
 
 class ProductController extends Controller
 {
@@ -54,23 +57,30 @@ class ProductController extends Controller
 
     public function form_edicion($id)
     {
-        // Buscar el producto por su id
+        // Buscar producto
         $producto = DB::table('producto')
             ->join('categoria', 'producto.categoria', '=', 'categoria.id')
             ->select('producto.*', 'categoria.nombreCategoria')
             ->where('producto.id', $id)
             ->first();
 
-        // Retornar la vista de edición
-        return view('Productos.form_edicion', compact('producto'));
+        // ✅ Traer todas las categorías
+        $categorias = CategoriaModel::all();
+
+          if (!$producto) {
+        abort(404, 'Producto no encontrado');
+        }
+
+
+        // ✅ Enviar ambas variables a la vista
+        return view('Productos.form_edicion', compact('producto', 'categorias'));
     }
 
-    // 🔁 (Para después) Actualizar producto
-    public function actualizar(Request $request, $id)
+        public function actualizar(Request $request, $id)
     {
         $request->validate([
             'nombre_producto' => 'required|string|max:100',
-            'cantidad_producto' => 'required|integer|min:1',
+            'cantidad_producto' => 'required|integer|min:0',
             'precio_producto' => 'required|numeric|min:0',
             'foto_producto' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
             'categoria' => 'required|exists:categoria,id',
@@ -82,6 +92,7 @@ class ProductController extends Controller
         $product->precioProducto = $request->precio_producto;
         $product->categoria = $request->categoria;
 
+        // Si suben nueva imagen
         if ($request->hasFile('foto_producto')) {
             if ($product->fotoProducto && Storage::disk('public')->exists($product->fotoProducto)) {
                 Storage::disk('public')->delete($product->fotoProducto);
