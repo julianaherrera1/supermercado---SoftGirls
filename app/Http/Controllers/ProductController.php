@@ -110,16 +110,20 @@ class ProductController extends Controller
     }
 
     // 🗑️ (Para después) Eliminar producto
-    public function eliminar($id)
+     public function eliminar($id)
     {
+        // Buscar el producto por ID, si no existe lanza 404
         $product = ProductoModel::findOrFail($id);
 
+        // Eliminar la imagen si existe en storage
         if ($product->fotoProducto && Storage::disk('public')->exists($product->fotoProducto)) {
             Storage::disk('public')->delete($product->fotoProducto);
         }
 
+        // Eliminar el producto de la base de datos
         $product->delete();
 
-        return redirect()->route('productos')->with('success', 'Producto eliminado correctamente.');
+        // Redirigir de vuelta con mensaje de éxito
+        return redirect()->back()->with('success', 'Producto eliminado correctamente.');
     }
 }
