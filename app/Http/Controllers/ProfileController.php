@@ -8,9 +8,18 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\View\View;
+use App\Models\Producto;
 
 class ProfileController extends Controller
 {
+
+        public function dashboard()
+    {
+        $user = auth()->user();
+        $productos = $user->productos; // Obtiene los productos del usuario logueado
+
+        return view('profile.dashboard', compact('productos'));
+    }
     /**
      * Display the user's profile form.
      */

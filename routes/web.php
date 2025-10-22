@@ -7,15 +7,15 @@ use App\Http\Controllers\CategoriaController;
 use App\Http\Controllers\ProductoController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\ProductController;
+use App\Http\Controllers\DashboardController;
 
+Route::get('/dashboard', [DashboardController::class, 'index'])
+    ->middleware(['auth', 'verified'])
+    ->name('dashboard');
 
 Route::get('/', function () {
     return view('welcome');
 });
-
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
@@ -48,6 +48,20 @@ Route::get('/productos', [ProductoController::class, 'index'])->middleware(['aut
 Route::get('/productos', [ProductController::class, 'index'])->middleware(['auth', 'verified'])->name('productos');
 Route::get('/productos/registro', [ProductController::class, 'form_registro'])->middleware(['auth', 'verified'])->name('form_reg_producto');
 Route::post('/productos/registro', [ProductController::class, 'registrar'])->middleware(['auth', 'verified'])->name('registro_producto');
+
+// Edición de productos
+Route::get('/productos/edicion/{id}', [ProductController::class, 'form_edicion'])
+    ->middleware(['auth', 'verified'])
+    ->name('form_edicion');
+
+Route::post('/productos/edicion/{id}', [ProductController::class, 'actualizar'])
+    ->middleware(['auth', 'verified'])
+    ->name('actualiza_producto');
+
+// Eliminación de productos
+Route::delete('/productos/eliminacion/{id}', [ProductController::class, 'eliminar'])
+    ->middleware(['auth', 'verified'])
+    ->name('elimina_producto');
 
 
 require __DIR__.'/auth.php';

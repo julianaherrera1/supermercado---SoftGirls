@@ -4,12 +4,13 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\CategoriaModel; // ✅ importante para que reconozca la relación
 
 class ProductoModel extends Model
 {
     use HasFactory;
 
-    protected $table = 'producto'; 
+    protected $table = 'producto';
     protected $primaryKey = 'id';
     public $timestamps = true;
 
@@ -18,28 +19,12 @@ class ProductoModel extends Model
         'cantidadProducto',
         'precioProducto',
         'fotoProducto',
-        'categoria', // FK hacia categoria.id
+        'categoria',
     ];
 
-    // Relación: un producto pertenece a una categoría
-    public function categoriaRelacion()
+    // ✅ Relación correcta: un producto pertenece a una categoría
+    public function categoria()
     {
         return $this->belongsTo(CategoriaModel::class, 'categoria', 'id');
     }
-
-    // Accessor para obtener la URL de la foto (útil en vistas)
-    public function getFotoUrlAttribute()
-    {
-        if (!$this->fotoProducto) {
-            return null; // o una imagen por defecto: asset('images/default.png')
-        }
-
-        return asset('storage/productos/' . $this->fotoProducto);
-    }
-
-    // Opcional: cast para campos numéricos
-    protected $casts = [
-        'cantidadProducto' => 'integer',
-        'precioProducto' => 'decimal:2',
-    ];
 }

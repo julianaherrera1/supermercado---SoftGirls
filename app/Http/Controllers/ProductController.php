@@ -52,12 +52,17 @@ class ProductController extends Controller
         return redirect()->route('productos')->with('success', 'Producto registrado correctamente.');
     }
 
-    // ✏️ (Para después) Formulario de edición
     public function form_edicion($id)
     {
-        $producto = ProductoModel::findOrFail($id);
-        $categorias = CategoriaModel::all();
-        return view('Productos.form_edicion', compact('producto', 'categorias'));
+        // Buscar el producto por su id
+        $producto = DB::table('producto')
+            ->join('categoria', 'producto.categoria', '=', 'categoria.id')
+            ->select('producto.*', 'categoria.nombreCategoria')
+            ->where('producto.id', $id)
+            ->first();
+
+        // Retornar la vista de edición
+        return view('Productos.form_edicion', compact('producto'));
     }
 
     // 🔁 (Para después) Actualizar producto
