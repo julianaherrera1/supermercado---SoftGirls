@@ -1,217 +1,116 @@
-@extends('..formato')
-@yield('contenido')
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-2xl text-center text-gray-100 leading-tight">
+            Registro de Productos
+        </h2>
+    </x-slot>
 
-<div class="container">
-    <h1>Registro de Productos</h1>
+    <div class="py-8">
+        <div class="max-w-3xl mx-auto bg-gray-800 dark:bg-gray-900 shadow-lg rounded-xl p-6">
 
-    {{-- Mostrar errores generales --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
+            {{-- Mensaje de éxito --}}
+            @if(session('success'))
+                <div class="bg-green-600 text-white p-4 rounded mb-4 flex items-center justify-between">
+                    <span>{{ session('success') }}</span>
+                </div>
+            @endif
+
+            {{-- Mostrar errores generales --}}
+            @if ($errors->any())
+                <div class="bg-red-600 text-white p-4 rounded mb-4">
+                    <ul class="list-disc pl-5 space-y-1">
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+
+            <form action="{{ url('/productos/registro') }}" method="POST" enctype="multipart/form-data" class="space-y-6">
+                @csrf
+
+                {{-- Nombre Producto --}}
+                <div>
+                    <label for="nombre_producto" class="block text-gray-200 font-medium mb-1">Nombre del Producto</label>
+                    <input type="text" 
+                           id="nombre_producto" 
+                           name="nombre_producto" 
+                           value="{{ old('nombre_producto') }}"
+                           class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50 @error('nombre_producto') border-red-500 @enderror">
+                    @error('nombre_producto')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Cantidad --}}
+                <div>
+                    <label for="cantidad_producto" class="block text-gray-200 font-medium mb-1">Cantidad</label>
+                    <input type="number" 
+                           id="cantidad_producto" 
+                           name="cantidad_producto" 
+                           value="{{ old('cantidad_producto') }}"
+                           class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50 @error('cantidad_producto') border-red-500 @enderror">
+                    @error('cantidad_producto')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Precio --}}
+                <div>
+                    <label for="precio_producto" class="block text-gray-200 font-medium mb-1">Precio</label>
+                    <input type="number" 
+                           id="precio_producto" 
+                           name="precio_producto" 
+                           step="0.01"
+                           value="{{ old('precio_producto') }}"
+                           class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50 @error('precio_producto') border-red-500 @enderror">
+                    @error('precio_producto')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Foto --}}
+                <div>
+                    <label for="foto_producto" class="block text-gray-200 font-medium mb-1">Foto del Producto</label>
+                    <input type="file" 
+                           id="foto_producto" 
+                           name="foto_producto"
+                           class="w-full text-gray-100 border border-gray-600 rounded-lg bg-gray-700 px-3 py-2 @error('foto_producto') border-red-500 @enderror">
+                    @error('foto_producto')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Categoría --}}
+                <div>
+                    <label for="categoria" class="block text-gray-200 font-medium mb-1">Categoría</label>
+                    <select id="categoria" name="categoria"
+                            class="w-full px-4 py-2 rounded-lg bg-gray-700 text-gray-100 border border-gray-600 focus:border-blue-500 focus:ring focus:ring-blue-400 focus:ring-opacity-50 @error('categoria') border-red-500 @enderror">
+                        <option disabled selected>Seleccione una categoría</option>
+                        @foreach($categorias as $c)
+                            <option value="{{ $c->id }}" {{ old('categoria') == $c->id ? 'selected' : '' }}>
+                                {{ $c->nombreCategoria }}
+                            </option>
+                        @endforeach
+                    </select>
+                    @error('categoria')
+                        <p class="text-red-400 text-sm mt-1">{{ $message }}</p>
+                    @enderror
+                </div>
+
+                {{-- Botón de Enviar --}}
+                <div class="flex justify-between items-center">
+                    <a href="{{ route('dashboard') }}" 
+                       class="bg-gray-600 hover:bg-gray-700 text-white font-semibold px-4 py-2 rounded-lg transition">
+                        Volver a Lista
+                    </a>
+                    <button type="submit" 
+                            class="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg transition">
+                        Registrar Producto
+                    </button>
+                </div>
+
+            </form>
         </div>
-    @endif
-
-    <form action="{{ url('/productos/registro') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        {{-- Nombre Producto --}}
-        <div class="mb-3">
-            <label for="nombre_producto" class="form-label">Nombre Producto</label>
-            <input type="text" 
-                   class="form-control @error('nombre_producto') is-invalid @enderror" 
-                   id="nombre_producto" 
-                   name="nombre_producto" 
-                   value="{{ old('nombre_producto') }}">
-            @error('nombre_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Cantidad --}}
-        <div class="mb-3">
-            <label for="cantidad_producto" class="form-label">Cantidad</label>
-            <input type="number" 
-                   class="form-control @error('cantidad_producto') is-invalid @enderror" 
-                   id="cantidad_producto" 
-                   name="cantidad_producto" 
-                   value="{{ old('cantidad_producto') }}">
-            @error('cantidad_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Precio --}}
-        <div class="mb-3">
-            <label for="precio_producto" class="form-label">Precio</label>
-            <input type="number" 
-                   class="form-control @error('precio_producto') is-invalid @enderror" 
-                   id="precio_producto" 
-                   name="precio_producto" 
-                   step="0.01"
-                   value="{{ old('precio_producto') }}">
-            @error('precio_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Foto --}}
-        <div class="mb-3">
-            <label for="foto_producto" class="form-label">Foto</label>
-            <input type="file" 
-                   class="form-control @error('foto_producto') is-invalid @enderror" 
-                   id="foto_producto" 
-                   name="foto_producto">
-            @error('foto_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Categoría --}}
-        <div class="mb-3">
-            <label for="categoria" class="form-label">Categoría</label>
-            <select class="form-select @error('categoria') is-invalid @enderror" 
-                    id="categoria" 
-                    name="categoria">
-                <option disabled selected>Seleccione una categoria</option>
-                @foreach($categorias as $c)
-                    <option value="{{ $c->id }}" {{ old('categoria') == $c->id ? 'selected' : '' }}>
-                        {{ $c->nombreCategoria }}
-                    </option>
-                @endforeach
-            </select>
-            @error('categoria')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Botón de Enviar --}}
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-</div>
-
-<!--
-
--- Función del controlador registrar
-
-$r->validate([
-            'nombre_producto' => 'required|string',
-            'cantidad_producto' => 'required|integer|min:1',
-            'precio_producto' => 'required|numeric|min:0',
-            'foto_producto' => 'image|mimes:jpeg,png,jpg,gif|max:2048',
-            'categoria' => 'required|integer',
-        ]);
-
-
-        $product= new ProductoModel();
-        $product->nombreProducto= $r->input('nombre_producto');
-        $product->cantidadProducto= $r->input('cantidad_producto');
-        $product->precioProducto= $r->input('precio_producto');
-        $product->fotoProducto= $r->input('foto_producto');
-        $product->categoria= $r->input('categoria');
-        $product->save();
-        return redirect()->route('productos');
-
-
--- Vista de registro de productos
-
-@extends('..formato')
-@yield('contenido')
-
-<div class="container">
-    <h1>Registro de Productos</h1>
-
-    {{-- Mostrar errores generales --}}
-    @if ($errors->any())
-        <div class="alert alert-danger">
-            <ul class="mb-0">
-                @foreach ($errors->all() as $error)
-                    <li>{{ $error }}</li>
-                @endforeach
-            </ul>
-        </div>
-    @endif
-
-    <form action="{{ url('/productos/registro') }}" method="POST" enctype="multipart/form-data">
-        @csrf
-
-        {{-- Nombre Producto --}}
-        <div class="mb-3">
-            <label for="nombre_producto" class="form-label">Nombre Producto</label>
-            <input type="text" 
-                   class="form-control @error('nombre_producto') is-invalid @enderror" 
-                   id="nombre_producto" 
-                   name="nombre_producto" 
-                   value="{{ old('nombre_producto') }}">
-            @error('nombre_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Cantidad --}}
-        <div class="mb-3">
-            <label for="cantidad_producto" class="form-label">Cantidad</label>
-            <input type="number" 
-                   class="form-control @error('cantidad_producto') is-invalid @enderror" 
-                   id="cantidad_producto" 
-                   name="cantidad_producto" 
-                   value="{{ old('cantidad_producto') }}">
-            @error('cantidad_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Precio --}}
-        <div class="mb-3">
-            <label for="precio_producto" class="form-label">Precio</label>
-            <input type="number" 
-                   class="form-control @error('precio_producto') is-invalid @enderror" 
-                   id="precio_producto" 
-                   name="precio_producto" 
-                   step="0.01"
-                   value="{{ old('precio_producto') }}">
-            @error('precio_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Foto --}}
-        <div class="mb-3">
-            <label for="foto_producto" class="form-label">Foto</label>
-            <input type="file" 
-                   class="form-control @error('foto_producto') is-invalid @enderror" 
-                   id="foto_producto" 
-                   name="foto_producto">
-            @error('foto_producto')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Categoría --}}
-        <div class="mb-3">
-            <label for="categoria" class="form-label">Categoría</label>
-            <select class="form-select @error('categoria') is-invalid @enderror" 
-                    id="categoria" 
-                    name="categoria">
-                <option disabled selected>Seleccione una categoria</option>
-                @foreach($categorias as $c)
-                    <option value="{{ $c->id }}" {{ old('categoria') == $c->id ? 'selected' : '' }}>
-                        {{ $c->nombreCategoria }}
-                    </option>
-                @endforeach
-            </select>
-            @error('categoria')
-                <div class="invalid-feedback">{{ $message }}</div>
-            @enderror
-        </div>
-
-        {{-- Botón de Enviar --}}
-        <button type="submit" class="btn btn-primary">Enviar</button>
-    </form>
-</div>
-
-
--->
+    </div>
+</x-app-layout>

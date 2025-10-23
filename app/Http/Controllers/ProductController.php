@@ -16,7 +16,7 @@ class ProductController extends Controller
     public function index()
     {
         // Traer productos con su categoría asociada
-        $productos = ProductoModel::with('belongsCategory')->get();
+        $productos = ProductoModel::with('categoria')->get(); // 'categoria' es el nombre exacto de la relación
         return view('Productos.listado', compact('productos'));
     }
 
@@ -52,7 +52,7 @@ class ProductController extends Controller
 
         $product->save();
 
-        return redirect()->route('productos')->with('success', 'Producto registrado correctamente.');
+        return redirect()->back()->with('success', 'Producto registrado correctamente.');
     }
 
     public function form_edicion($id)
@@ -100,6 +100,7 @@ class ProductController extends Controller
             $ruta = $request->file('foto_producto')->store('productos', 'public');
             $product->fotoProducto = $ruta;
         }
+
 
         $product->save();
 
