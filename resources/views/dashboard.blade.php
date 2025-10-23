@@ -10,31 +10,44 @@
 
             {{-- Cards resumen --}}
             <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-center">
-                <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl">
+
+                {{-- Total productos --}}
+                <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl flex flex-col items-center">
                     <small class="text-gray-500 dark:text-gray-400 text-sm">Total productos</small>
                     <h3 class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">
                         {{ $totalProductos ?? 0 }}
                     </h3>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl">
+                {{-- Total categorías con botón --}}
+                <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl flex flex-col items-center">
                     <small class="text-gray-500 dark:text-gray-400 text-sm">Total categorías</small>
                     <h3 class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">
                         {{ $totalCategorias ?? 0 }}
                     </h3>
+
+                    {{-- Botón ver listado --}}
+                    <a href="{{ route('categorias') }}" 
+                       class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm transition">
+                        Ver listado
+                    </a>
                 </div>
 
-                <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl">
+                {{-- Acciones --}}
+                <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl flex flex-col items-center">
                     <small class="text-gray-500 dark:text-gray-400 text-sm">Acciones</small>
                     <div class="flex flex-wrap justify-center gap-2 mt-3">
-                        <a href="{{ route('form_reg_producto') }}" class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700">
+                        <a href="{{ route('form_reg_producto') }}" 
+                           class="bg-green-600 text-white px-4 py-2 rounded-md text-sm hover:bg-green-700">
                             + Añadir producto
                         </a>
-                        <a href="{{ route('form_reg_categoria') }}" class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md text-sm hover:bg-blue-50 dark:hover:bg-gray-700">
+                        <a href="{{ route('form_reg_categoria') }}" 
+                           class="border border-blue-600 text-blue-600 px-4 py-2 rounded-md text-sm hover:bg-blue-50 dark:hover:bg-gray-700">
                             + Añadir categoría
                         </a>
                     </div>
                 </div>
+
             </div>
 
             {{-- Buscador --}}
@@ -51,7 +64,8 @@
                         <button class="bg-blue-600 text-white px-4 py-2 rounded-md hover:bg-blue-700">
                             Buscar
                         </button>
-                        <a href="{{ route('dashboard') }}" class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100 px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600">
+                        <a href="{{ route('dashboard') }}" 
+                           class="bg-gray-200 dark:bg-gray-700 text-gray-700 dark:text-gray-100 px-4 py-2 rounded-md hover:bg-gray-300 dark:hover:bg-gray-600">
                             Limpiar
                         </a>
                     </div>
@@ -104,16 +118,15 @@
                                         <a href="{{ route('form_edicion', $p->id) }}" class="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700 text-sm">
                                             Editar
                                         </a>
-                                       <form action="{{ route('elimina_producto', $p->id) }}" method="POST" class="inline delete-form">
-                                        @csrf
-                                        @method('DELETE')
-                                        <button type="submit"
-                                                class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
-                                                onclick="return confirmDelete(event, '{{ $p->nombreProducto }}')">
-                                            Eliminar
-                                        </button>
-                                    </form>
-
+                                        <form action="{{ route('elimina_producto', $p->id) }}" method="POST" class="inline delete-form">
+                                            @csrf
+                                            @method('DELETE')
+                                            <button type="submit"
+                                                    class="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 text-sm"
+                                                    onclick="return confirmDelete(event, '{{ $p->nombreProducto }}')">
+                                                Eliminar
+                                            </button>
+                                        </form>
                                     </td>
                                 </tr>
                             @empty
@@ -148,6 +161,6 @@
     @if(session('success'))
         alert('{{ session('success') }}');
     @endif
-</script>
+    </script>
 
 </x-app-layout>

@@ -1,51 +1,54 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Listado de Categorias</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4Q6Gf2aSP4eDXB8Miphtr37CMZZQ5oXLH2yaXMJ2w8e2ZtHTl7GptT4jmndRuHDT" crossorigin="anonymous">
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.bundle.min.js" integrity="sha384-j1CDi7MgGQ12Z7Qab0qlWQ/Qqz24Gc6BM0thvEMVjHnfYGF0rmFCozFSxQBxwHKO" crossorigin="anonymous"></script>
+<x-app-layout>
+    <x-slot name="header">
+        <h2 class="font-semibold text-2xl text-center text-gray-100 leading-tight">
+            Listado de Categorías
+        </h2>
+    </x-slot>
 
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.6/dist/js/bootstrap.min.js" integrity="sha384-RuyvpeZCxMJCqVUGFI0Do1mQrods/hhxYlcVfGPOfQtPJh0JCw12tUAZ/Mv10S7D" crossorigin="anonymous"></script>
+    <div class="py-8">
+        <div class="max-w-5xl mx-auto bg-gray-800 dark:bg-gray-900 shadow-lg rounded-xl p-6">
 
-</head>
-<body>
+            {{-- Botón añadir --}}
+            <div class="flex justify-end mb-4">
+                <a href="{{ route('form_reg_categoria') }}" 
+                   class="bg-green-600 hover:bg-green-700 text-white font-semibold px-4 py-2 rounded-lg transition">
+                    Añadir Categoría
+                </a>
+            </div>
 
-    <h1> Listado de Categorias </h1>
+            {{-- Tabla de categorías --}}
+            <div class="overflow-x-auto">
+                <table class="min-w-full table-auto border-collapse border border-gray-700">
+                    <thead class="bg-gray-700 text-gray-200">
+                        <tr>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Id</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Nombre</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Descripción</th>
+                            <th class="px-4 py-2 border border-gray-600 text-left">Opciones</th>
+                        </tr>
+                    </thead>
+                    <tbody class="text-gray-100">
+                        @foreach($categorias as $c)
+                        <tr class="even:bg-gray-700 odd:bg-gray-800">
+                            <td class="px-4 py-2 border border-gray-600">{{ $c->id }}</td>
+                            <td class="px-4 py-2 border border-gray-600">{{ $c->nombreCategoria }}</td>
+                            <td class="px-4 py-2 border border-gray-600">{{ $c->descripcion }}</td>
+                            <td class="px-4 py-2 border border-gray-600 space-x-2">
+                                <a href="{{ route('form_edc_categoria', $c->id) }}" 
+                                   class="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg transition text-sm">
+                                    Editar
+                                </a>
+                                <a href="{{ route('elimina_categoria', $c->id) }}" 
+                                   class="bg-red-600 hover:bg-red-700 text-white px-3 py-1 rounded-lg transition text-sm">
+                                    Eliminar
+                                </a>
+                            </td>
+                        </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+            </div>
 
-    <div class="container">
-
-        <div align="right">
-            <a class="btn btn-success" href="{{route('form_reg_categoria')}}"> Adicionar </a>
         </div>
-
-        <table class="table">
-            <thead>
-                <tr>
-                    <th scope="col">Id</th>
-                    <th scope="col">Nombre</th>
-                    <th scope="col">Descripción</th>
-                    <th scope="col">Opciones</th>
-                </tr>
-            </thead>
-            <tbody>
-                @foreach($categorias as $c)
-                <tr>
-                    <th scope="row">{{$c->id}}</th>
-                    <td>{{$c->nombreCategoria}}</td>
-                    <td>{{$c->descripcion}}</td>
-                    <td>
-                        <a class="btn btn-primary" href="{{route('form_edc_categoria',$c->id)}}"> Editar </a>
-                        <a class="btn btn-danger" href="{{route('elimina_categoria',$c->id)}}"> Eliminar </a>
-                    </td>
-
-                </tr>
-                @endforeach
-            </tbody>
-        </table>
     </div>
-
-</body>
-</html>
+</x-app-layout>
