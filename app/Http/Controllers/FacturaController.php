@@ -13,7 +13,7 @@ class FacturaController extends Controller
 {
     public function index()
     {
-        $facturas = FacturaModel::with('cliente')->orderBy('id','desc')->get();
+        $facturas = FacturaModel::with('cliente')->orderBy('id', 'desc')->paginate(10);
         return view('facturas.index', compact('facturas'));
     }
 
@@ -80,4 +80,17 @@ class FacturaController extends Controller
         $factura = FacturaModel::with(['cliente','detalles.producto'])->findOrFail($id);
         return view('facturas.show', compact('factura'));
     }
+
+    public function edit($id)
+    {
+        $factura = FacturaModel::findOrFail($id);
+        return view('facturas.edit', compact('factura'));
+    }
+
+    public function update(Request $request, $id)
+    {
+        // Aquí luego implementas la actualización
+        return redirect()->route('facturas.index')->with('success', 'Factura actualizada correctamente.');
+    }
+
 }

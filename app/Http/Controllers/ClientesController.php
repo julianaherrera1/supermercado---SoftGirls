@@ -8,6 +8,21 @@ use Illuminate\Support\Facades\Storage;
 
 class ClientesController extends Controller
 {
+
+   public function panel()
+    {
+        $totalClientes = \App\Models\ClienteModel::count();
+        $totalFacturas = \App\Models\FacturaModel::count();
+
+        // calcular ingresos del mes actual (sumar campo total de facturas con fecha en el mes actual)
+        $ingresosMes = \App\Models\FacturaModel::whereYear('fechaFactura', now()->year)
+                        ->whereMonth('fechaFactura', now()->month)
+                        ->sum('total');
+
+        return view('clientes.panel', compact('totalClientes','totalFacturas','ingresosMes'));
+    }
+
+
     public function index()
     {
         $clientes = ClienteModel::orderBy('id','desc')->get();

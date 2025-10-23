@@ -1,86 +1,76 @@
 <?php
 
-use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ClientesController;
-use App\Http\Controllers\CategoriaController;
-use App\Http\Controllers\ProductoController;
-use App\Http\Controllers\CategoryController;
-use App\Http\Controllers\ProductController;
+use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\ProductController;
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientesController;
+use App\Http\Controllers\FacturaController;
 
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware(['auth', 'verified'])
-    ->name('dashboard');
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Rutas públicas
+|
+*/
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('welcome'); // o tu nueva vista de inicio
 });
 
-Route::middleware('auth')->group(function () {
+/*
+|--------------------------------------------------------------------------
+| Rutas protegidas por auth
+|--------------------------------------------------------------------------
+*/
+Route::middleware(['auth', 'verified'])->group(function () {
+
+    // Dashboard principal (productos)
+    Route::get('/dashboard', [DashboardController::class, 'index'])->name('dashboard');
+
+    // Productos
+    Route::get('/productos', [ProductController::class, 'index'])->name('productos');
+    Route::get('/productos/registro', [ProductController::class, 'form_registro'])->name('form_reg_producto');
+    Route::post('/productos/registro', [ProductController::class, 'registrar'])->name('registro_producto');
+    Route::get('/productos/edicion/{id}', [ProductController::class, 'form_edicion'])->name('form_edicion');
+    Route::post('/productos/edicion/{id}', [ProductController::class, 'actualizar'])->name('actualiza_producto');
+    Route::delete('/productos/eliminacion/{id}', [ProductController::class, 'eliminar'])->name('elimina_producto');
+
+    // Categorías
+    Route::get('/categorias', [CategoryController::class, 'index'])->name('categorias');
+    Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->name('form_reg_categoria');
+    Route::post('/categorias/registro', [CategoryController::class, 'registrar'])->name('registro_categoria');
+    Route::get('/categorias/edicion/{id}', [CategoryController::class, 'form_edicion'])->name('form_edc_categoria');
+    Route::post('/categorias/edicion/{id}', [CategoryController::class, 'actualizar'])->name('actualiza_categoria');
+    Route::delete('/categorias/eliminacion/{id}', [CategoryController::class, 'eliminar'])->name('elimina_categoria');
+
+    // Clientes + Panel de facturación
+    Route::get('/clientes-panel', [ClientesController::class, 'panel'])->name('clientes_panel');
+
+    Route::get('/clientes', [ClientesController::class, 'index'])->name('clientes');
+    Route::get('/clientes/crear', [ClientesController::class, 'create'])->name('clientes.create');
+    Route::post('/clientes', [ClientesController::class, 'store'])->name('clientes.store');
+    Route::get('/clientes/edicion/{id}', [ClientesController::class, 'edit'])->name('clientes.edit');
+    Route::post('/clientes/{id}', [ClientesController::class, 'update'])->name('clientes.update');
+    Route::delete('/clientes/{id}', [ClientesController::class, 'destroy'])->name('clientes.destroy');
+
+    // Facturas
+    Route::get('/facturas', [FacturaController::class, 'index'])->name('facturas.index');
+    Route::get('/facturas/create', [FacturaController::class, 'create'])->name('facturas.create');
+    Route::post('/facturas', [FacturaController::class, 'store'])->name('facturas.store');
+    Route::get('/facturas/{id}', [FacturaController::class, 'show'])->name('facturas.show');
+    Route::delete('/facturas/{id}', [FacturaController::class, 'destroy'])->name('facturas.destroy');
+    Route::get('/{id}/editar', [FacturaController::class, 'edit'])->name('facturas.edit');
+    Route::put('/{id}', [FacturaController::class, 'update'])->name('facturas.update');
+
+
+    // Perfil (laravel/breeze)
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
-
-Route::get('/productos', [ProductController::class, 'index'])->name('productos');
-
-
-// Rutas Clientes
-Route::get('/clientes', [ClientesController::class, 'index'])->middleware(['auth', 'verified'])->name('clientes');
-
-// Rutas Categorias
-/*
-Route::get('/categorias', [CategoriaController::class, 'index'])->middleware(['auth', 'verified'])->name('categorias');
-Route::get('/categoriaUno', [CategoriaController::class, 'listarUno'])->middleware(['auth', 'verified'])->name('categorias');
-Route::get('/categoriaDos', [CategoriaController::class, 'listarCondicion'])->middleware(['auth', 'verified'])->name('categorias');
-*/
-
-Route::get('/categorias', [CategoryController::class, 'index'])->middleware(['auth', 'verified'])->name('categorias');
-Route::get('/categorias/registro', [CategoryController::class, 'form_registro'])->middleware(['auth', 'verified'])->name('form_reg_categoria');
-Route::post('/categorias/registro', [CategoryController::class, 'registrar'])->middleware(['auth', 'verified'])->name('registro_categoria');
-Route::get('/categorias/edicion/{id}', [CategoryController::class, 'form_edicion'])->middleware(['auth', 'verified'])->name('form_edc_categoria');
-Route::post('/categorias/edicion/{id}', [CategoryController::class, 'actualizar'])->middleware(['auth', 'verified'])->name('actualiza_categoria');
-Route::get('/categorias/eliminacion/{id}', [CategoryController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('elimina_categoria');
-
-
-
-// Rutas de Productos
-/*
-Route::get('/productos', [ProductoController::class, 'index'])->middleware(['auth', 'verified'])->name('productos');
-*/
-// Listar
-Route::get('/productos', [ProductController::class, 'index'])->middleware(['auth', 'verified'])->name('productos');
-
-// Crear
-Route::get('/productos/registro', [ProductController::class, 'form_registro'])->middleware(['auth', 'verified'])->name('form_reg_producto');
-Route::post('/productos/registro', [ProductController::class, 'registrar'])->middleware(['auth', 'verified'])->name('registro_producto');
-
-// Editar
-Route::get('/productos/edicion/{id}', [ProductController::class, 'form_edicion'])->middleware(['auth', 'verified'])->name('form_edicion');
- Route::post('/productos/edicion/{id}', [ProductController::class, 'actualizar'])
-    ->middleware(['auth', 'verified'])
-    ->name('actualiza_producto');
-
-
-
-// Eliminar
-Route::delete('/productos/eliminacion/{id}', [ProductController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('elimina_producto');
-
-// Clientes
-Route::get('/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes');
-Route::get('/clientes/crear', [App\Http\Controllers\ClientesController::class, 'create'])->name('clientes.create');
-Route::post('/clientes', [App\Http\Controllers\ClientesController::class, 'store'])->name('clientes.store');
-Route::get('/clientes/edicion/{id}', [App\Http\Controllers\ClientesController::class, 'edit'])->name('clientes.edit');
-Route::put('/clientes/{id}', [App\Http\Controllers\ClientesController::class, 'update'])->name('clientes.update');
-Route::delete('/clientes/{id}', [App\Http\Controllers\ClientesController::class, 'destroy'])->name('clientes.destroy');
-
-// Facturas
-Route::get('/facturas', [App\Http\Controllers\FacturaController::class, 'index'])->name('facturas.index');
-Route::get('/facturas/crear', [App\Http\Controllers\FacturaController::class, 'create'])->name('facturas.create');
-Route::post('/facturas', [App\Http\Controllers\FacturaController::class, 'store'])->name('facturas.store');
-Route::get('/facturas/{id}', [App\Http\Controllers\FacturaController::class, 'show'])->name('facturas.show');
-
-
 
 require __DIR__.'/auth.php';
