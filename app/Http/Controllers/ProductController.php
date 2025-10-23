@@ -13,11 +13,23 @@ use Illuminate\Support\Facades\Storage;
 class ProductController extends Controller
 {
     // 📋 Mostrar listado de productos
-    public function index()
+  public function index(Request $request)
     {
-        // Traer productos con su categoría asociada
-        $productos = ProductoModel::with('categoria')->get(); // 'categoria' es el nombre exacto de la relación
+        $query = ProductoModel::with('categoriaRelacion');
+        
+        if ($request->has('q') && $request->q != '') {
+            $query->where('nombreProducto', 'LIKE', '%' . $request->q . '%');
+        }
+        
+        $productos = $query->orderBy('nombreProducto')->paginate(10);
+        
         return view('Productos.listado', compact('productos'));
+    }
+
+    // Agregar este método para compatibilidad
+    public function categoria()
+    {
+        return $this->categoriaRelacion();
     }
 
     // 🧾 Formulario de registro

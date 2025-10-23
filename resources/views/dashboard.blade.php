@@ -19,14 +19,12 @@
                     </h3>
                 </div>
 
-                {{-- Total categorías con botón --}}
+                {{-- Total categorías --}}
                 <div class="bg-white dark:bg-gray-800 p-5 shadow rounded-xl flex flex-col items-center">
                     <small class="text-gray-500 dark:text-gray-400 text-sm">Total categorías</small>
                     <h3 class="text-3xl font-bold mt-2 text-gray-900 dark:text-gray-100">
                         {{ $totalCategorias ?? 0 }}
                     </h3>
-
-                    {{-- Botón ver listado --}}
                     <a href="{{ route('categorias') }}" 
                        class="mt-3 bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-md text-sm transition">
                         Ver listado
@@ -89,9 +87,10 @@
                         </thead>
 
                         <tbody>
-                            @forelse($productos as $p)
+                            @forelse($productos as $index => $p)
                                 <tr class="border-b border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-700 align-middle text-center">
-                                    <td class="px-4 py-3">{{ $p->id }}</td>
+                                    {{-- Numeración desde 1 --}}
+                                    <td class="px-4 py-3">{{ $index + 1 }}</td>
 
                                     {{-- Imagen --}}
                                     <td class="px-4 py-4 flex items-center justify-center h-36">
@@ -111,7 +110,13 @@
                                     <td class="px-4 py-3 font-medium">{{ $p->nombreProducto }}</td>
                                     <td class="px-4 py-3">{{ $p->cantidadProducto }}</td>
                                     <td class="px-4 py-3">${{ number_format($p->precioProducto, 0, ',', '.') }}</td>
-                                    <td class="px-4 py-3">{{ $p->categoria->nombreCategoria ?? '-' }}</td>
+
+                                    {{-- Categoría con manejo seguro --}}
+                                    <td class="px-4 py-3">
+                                        {{ $p->categoriaRelacion->nombreCategoria ?? 'Sin categoría' }}
+                                    </td>
+
+
 
                                     {{-- Acciones --}}
                                     <td class="px-4 py-3 space-x-2 flex justify-center">

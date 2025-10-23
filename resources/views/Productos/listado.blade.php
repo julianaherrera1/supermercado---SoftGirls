@@ -38,7 +38,9 @@
                 <td>{{$c->nombreProducto}}</td>
                 <td>{{$c->cantidadProducto}}</td>
                 <td>{{$c->precioProducto}}</td>
-                <td>{{ $c->belongsCategory->nombreCategoria ?? 'Sin categoría' }}</td>
+                <td class="px-4 py-3">
+                    {{ $producto->categoriaRelacion->nombreCategoria ?? 'Sin categoría' }}
+                </td>
                 <td>
                     <a class="btn btn-primary"> Editar </a>
                     <a class="btn btn-danger"> Eliminar </a>

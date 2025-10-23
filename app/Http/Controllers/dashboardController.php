@@ -13,7 +13,9 @@ class DashboardController extends Controller
         // búsqueda simple opcional
         $q = $request->query('q');
 
-        $query = ProductoModel::with('categoria');
+        // ✅ CORREGIR: usar 'categoriaRelacion' en lugar de 'categoria'
+        $query = ProductoModel::with('categoriaRelacion');
+        
         if ($q) {
             $query->where('nombreProducto', 'like', "%{$q}%");
         }

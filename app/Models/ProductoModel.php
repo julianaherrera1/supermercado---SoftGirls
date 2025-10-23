@@ -23,8 +23,16 @@ class ProductoModel extends Model
     ];
 
     // ✅ Relación correcta: un producto pertenece a una categoría
-    public function categoria()
+    public function categoriaRelacion()
     {
         return $this->belongsTo(CategoriaModel::class, 'categoria', 'id');
     }
+
+    // O usar esto en lugar del atributo personalizado
+    public function getCategoriaNombreAttribute()
+    {
+        return $this->categoriaRelacion ? $this->categoriaRelacion->nombreCategoria : 'Sin categoría';
+    }
+
+
 }

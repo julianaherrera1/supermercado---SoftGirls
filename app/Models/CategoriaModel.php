@@ -25,4 +25,7 @@ class CategoriaModel extends Model
     {
         return $this->hasMany(ProductoModel::class, 'categoria', 'id');
     }
+
+     
+
 }
