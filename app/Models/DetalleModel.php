@@ -13,7 +13,18 @@ class DetalleModel extends Model
     public $timestamps = true;
 
     // Rellena estos campos según tu tabla detalle
-    protected $fillable = [
-        // 'factura_id', 'producto_id', 'cantidad', 'precio_unitario', ...
+     protected $fillable = [
+        'factura', 'producto', 'cantidad', 'precio'
     ];
+
+    //Relaciones
+      public function factura()
+    {
+        return $this->belongsTo(FacturaModel::class, 'factura', 'id');
+    }
+
+    public function producto()
+    {
+        return $this->belongsTo(ProductoModel::class, 'producto', 'id');
+    }
 }

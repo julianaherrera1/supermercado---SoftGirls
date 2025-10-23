@@ -67,6 +67,20 @@ Route::get('/productos/edicion/{id}', [ProductController::class, 'form_edicion']
 // Eliminar
 Route::delete('/productos/eliminacion/{id}', [ProductController::class, 'eliminar'])->middleware(['auth', 'verified'])->name('elimina_producto');
 
+// Clientes
+Route::get('/clientes', [App\Http\Controllers\ClientesController::class, 'index'])->name('clientes');
+Route::get('/clientes/crear', [App\Http\Controllers\ClientesController::class, 'create'])->name('clientes.create');
+Route::post('/clientes', [App\Http\Controllers\ClientesController::class, 'store'])->name('clientes.store');
+Route::get('/clientes/edicion/{id}', [App\Http\Controllers\ClientesController::class, 'edit'])->name('clientes.edit');
+Route::put('/clientes/{id}', [App\Http\Controllers\ClientesController::class, 'update'])->name('clientes.update');
+Route::delete('/clientes/{id}', [App\Http\Controllers\ClientesController::class, 'destroy'])->name('clientes.destroy');
+
+// Facturas
+Route::get('/facturas', [App\Http\Controllers\FacturaController::class, 'index'])->name('facturas.index');
+Route::get('/facturas/crear', [App\Http\Controllers\FacturaController::class, 'create'])->name('facturas.create');
+Route::post('/facturas', [App\Http\Controllers\FacturaController::class, 'store'])->name('facturas.store');
+Route::get('/facturas/{id}', [App\Http\Controllers\FacturaController::class, 'show'])->name('facturas.show');
+
 
 
 require __DIR__.'/auth.php';

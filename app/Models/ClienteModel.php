@@ -4,6 +4,8 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use App\Models\FacturaModel; // 
+
 
 class ClienteModel extends Model
 {
@@ -27,5 +29,10 @@ class ClienteModel extends Model
     {
         if (!$this->fotoCliente) return null;
         return asset('storage/clientes/' . $this->fotoCliente);
+    }
+
+    public function facturas()
+    {
+        return $this->hasMany(FacturaModel::class, 'cliente', 'id');
     }
 }

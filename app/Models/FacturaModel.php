@@ -12,13 +12,18 @@ class FacturaModel extends Model
     protected $table = 'factura';
     public $timestamps = true;
 
-    protected $fillable = [
-        // 'cliente_id', 'fecha', 'total', ...
+     protected $fillable = [
+        'cliente', 'fechaFactura', 'total'
     ];
 
-    // Relación ejemplo
+    // Relaciones
+    public function cliente()
+    {
+        return $this->belongsTo(ClienteModel::class, 'cliente', 'id');
+    }
+
     public function detalles()
     {
-        return $this->hasMany(DetalleModel::class, 'factura_id', 'id');
+        return $this->hasMany(DetalleModel::class, 'factura', 'id');
     }
 }

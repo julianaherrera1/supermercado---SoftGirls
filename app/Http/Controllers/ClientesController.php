@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use App\Models\FacturaModel;
+use Illuminate\Support\Facades\Storage;
+
 
 
 class ClientesController extends Controller
@@ -13,4 +16,6 @@ class ClientesController extends Controller
         $clientes = DB::table('cliente')->get(); // select * from cliente;
         return view('Clientes.listado', ['clientes'=> $clientes]);
     }
+
+    
 }
